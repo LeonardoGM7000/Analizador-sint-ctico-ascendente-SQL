@@ -106,4 +106,155 @@ public class Parser {
             return 19; // ERROR imposible de suceder, en analizador lexico se encarga de manejar estos errores
     }
 
+    // Función para realizar las reducciones
+    
+    void reduccion(int edored){
+
+        String action;
+        int edoActual;
+        int edoSig;
+        //para la reducción haremos un switch case para cada reducción que tengamos, por lo que se atacará 1 por 1
+        //es importante saber que usaremos de nuevo la tabla ACCION, en el apartado ir_a, por lo que hay que definir su número de columna
+        // Q  D  P   A   A1  A2  A3  T   T1  T2  T3
+        // 8  9  10  11  12  13  14  15  16  17  18
+        switch (edored){
+            case 0: //Q -> select D from T
+                //se quitan 4 elementos de la pila
+                pila.pop();
+                pila.pop();
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][8]; //sacamos la siguiente acción
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 1: //D -> distinct P
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][9];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 2: //D -> P
+                //se quita 1 elemento de la pila
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][9];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 3: //P -> * | A
+            case 4:
+                //se quita 1 elemento de la pila
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][10];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 5: //A -> A1A2
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][11];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 6: //A1 -> ,A
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][12];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 7: //A1 -> epsilon
+                //no se quita ningún elemento de la pila
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][12];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 8: //A2 -> id A3
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][13];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 9: //A3 -> . id
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][14];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 10: //A3 -> epsilon
+                //No se quita ningún elemento de la pila
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][14];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 11: //T -> T2T1
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][15];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 12: //T1 -> , T
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][16];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 13: //T1 -> epsilon
+                //No se quita ningun elemento de la pila
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][16];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 14: //T2 -> id T3
+                //se quitan 2 elementos de la pila
+                pila.pop();
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][17];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 15: //T3 -> id
+                //se quita 1 elemento de la pila
+                pila.pop();
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][18];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+            case 16: //T3 -> epsilon
+                //No se quita ningún elemento de la pila
+                edoActual = pila.peek(); //obtenemos el elemento que esta en la punta de la pila para saber en qué estado andamos
+                action = ACCION[edoActual][18];
+                edoSig = Integer.parseInt(action); //convertimos en enetero el string de la matriz
+                pila.push(edoSig); //ponemos en la pila el nuevo estado
+                break;
+        }
+    }
+
 }
