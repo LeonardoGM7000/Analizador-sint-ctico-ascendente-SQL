@@ -18,8 +18,36 @@ public class Parser {
     private Token tokenfree; //token auxiliar para hacer comparaciones, etc
     Stack<Integer> pila = new Stack<>(); //declaramos la pila para el algoritmo del ASA
 
-    //declaramos la tabla de analisis con ayuda de una matriz llamada accion
-    private static final String[][] ACCION = {};
+     //declaramos la tabla de analisis con ayuda de una matriz llamada accion
+     private static final String[][] ACCION = {
+        /*             *   ,  .  id  select distinct from $ Q D P A A1 A2 A3 T T1 T2 T3 */
+        /* edo 0 */ { "", "", "", "", "s2", "", "", "", "1", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 1 */ { "", "", "", "", "", "", "", "acc", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 2 */ { "s6", "", "", "s9", "", "s4", "", "", "", "3", "5", "7", "", "8", "", "", "", "", "" },
+        /* edo 3 */ { "", "", "", "", "", "", "s10", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 4 */ { "s6", "", "", "s9", "", "", "", "", "", "", "11", "7", "", "8", "", "", "", "", "" },
+        /* edo 5 */ { "", "", "", "", "", "", "r2", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 6 */ { "", "", "", "", "", "", "r3", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 7 */ { "", "", "", "", "", "", "r3", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 8 */ { "", "s13", "", "", "", "", "r7", "", "", "", "", "", "12", "", "", "", "", "", "" },
+        /* edo 9 */ { "", "r10", "s15", "", "", "", "r10", "", "", "", "", "", "", "", "14", "", "", "", "" },
+        /* edo 10 */ { "", "", "", "s18", "", "", "", "", "", "", "", "", "", "", "", "16", "", "17", "" },
+        /* edo 11 */ { "", "", "", "", "", "", "r1", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 12 */ { "", "", "", "", "", "", "r5", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 13 */ { "", "", "", "s9", "", "", "", "", "", "", "", "19", "", "8", "", "", "", "", "" },
+        /* edo 14 */ { "", "r8", "", "", "", "", "r8", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 15 */ { "", "", "", "s20", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 16 */ { "", "", "", "", "", "", "", "r0", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 17 */ { "", "s22", "", "", "", "", "", "r13", "", "", "", "", "", "", "", "", "21", "", "" },
+        /* edo 18 */ { "", "r16", "", "s24", "", "", "", "r16", "", "", "", "", "", "", "", "", "", "", "23" },
+        /* edo 19 */ { "", "", "", "", "", "", "r6", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 20 */ { "", "r9", "", "", "", "", "r9", "", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 21 */ { "", "", "", "", "", "", "", "r11", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 22 */ { "", "", "", "s18", "", "", "", "", "", "", "", "", "", "", "", "25", "", "17", "" },
+        /* edo 23 */ { "", "r14", "", "", "", "", "", "r14", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 24 */ { "", "r15", "", "", "", "", "", "r15", "", "", "", "", "", "", "", "", "", "", "" },
+        /* edo 25 */ { "", "", "", "", "", "", "", "r12", "", "", "", "", "", "", "", "", "", "", "" }
+};
 
     private int i; //se genera para poder movernos en la lista de tokens
     public void parse(){
@@ -55,4 +83,27 @@ public class Parser {
             }
         }
     }
+
+    private int colterminales(TipoToken tipo) {
+        String term = String.valueOf(tipo); // usamos el tipotoken como un string para hacer comparacion
+        if (term.equals("ASTERISCO"))
+            return 0;
+        else if (term.equals("COMA"))
+            return 1;
+        else if (term.equals("PUNTO"))
+            return 2;
+        else if (term.equals("IDENTIFICADOR"))
+            return 3;
+        else if (term.equals("SELECT"))
+            return 4;
+        else if (term.equals("DISTINCT"))
+            return 5;
+        else if (term.equals("FROM"))
+            return 6;
+        else if (term.equals("EOF"))
+            return 7;
+        else
+            return 19; // ERROR imposible de suceder, en analizador lexico se encarga de manejar estos errores
+    }
+
 }
